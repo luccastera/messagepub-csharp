@@ -1,0 +1,8 @@
+*~
+*.pidb
+*.user*
+MessagePub/bin/*
+MessagePub/*.pidb
+MessagePubTester/bin/*
+MessagePubTester/*.pidb
+

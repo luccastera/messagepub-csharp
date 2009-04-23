@@ -1,0 +1,24 @@
+<Combine name="MessagePub" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="MessagePub" configuration="Debug" />
+      <Entry build="True" name="Packages" configuration="" />
+      <Entry build="True" name="MessagePubTester" configuration="Debug" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="MessagePub" configuration="Release" />
+      <Entry build="True" name="Packages" configuration="" />
+      <Entry build="True" name="MessagePubTester" configuration="Release" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="MessagePubTester" single="True">
+    <Execute type="None" entry="MessagePub" />
+    <Execute type="None" entry="Packages" />
+    <Execute type="None" entry="MessagePubTester" />
+  </StartMode>
+  <Entries>
+    <Entry filename="MessagePub/MessagePub.mdp" />
+    <Entry filename="Packages.mdse" />
+    <Entry filename="MessagePubTester/MessagePubTester.mdp" />
+  </Entries>
+</Combine>
