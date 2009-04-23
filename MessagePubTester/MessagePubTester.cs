@@ -38,8 +38,8 @@ namespace MessagePubTester
       
       // Test Client.create
       Client client = new Client("your api key");      
-      //string status = client.createNotification(note);
-      //Console.WriteLine("Created a notification. HTTP Status Response: {0}", status);
+      string status = client.createNotification(note);
+      Console.WriteLine("Created a notification. HTTP Status Response: {0}", status);
       
       // Test Client.getNotification
       Console.WriteLine("\nGetting Notification...\n");
