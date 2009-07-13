@@ -46,6 +46,7 @@ namespace MessagePub
     public string createNotification(Notification note)
     {
       HttpWebRequest req = (HttpWebRequest) WebRequest.Create(baseUrl + "/notifications.xml");
+	  req.PreAuthenticate = true;
       req.Credentials = new NetworkCredential(apiKey, "password");
       req.Method = "POST";
       req.ContentType = "text/xml";
@@ -55,13 +56,17 @@ namespace MessagePub
       s.Write(System.Text.Encoding.ASCII.GetBytes(postData),0,postData.Length );
       s.Close();      
       HttpWebResponse resp = (HttpWebResponse) req.GetResponse();
-      return resp.StatusCode.ToString();
+	  String statusCode = resp.StatusCode.ToString();
+	  resp.Close();
+	  req.Abort();
+      return statusCode;
     }    
-    
+    		
     // Gets one notification based on id
     public Notification getNotification(int notificationId) 
     {
       HttpWebRequest req = (HttpWebRequest) WebRequest.Create(baseUrl + "/notifications/" + notificationId + ".xml");
+	  req.PreAuthenticate = true;
       req.Credentials = new NetworkCredential(apiKey, "password");
       req.Method = "GET";     
       req.Accept = "text/xml";
@@ -83,15 +88,38 @@ namespace MessagePub
         }
       } else {
         throw new Exception();
-      }      
+      }  
+	  resp.Close();
+	  req.Abort();			
       return note;
     }
+		
+	public Boolean cancelNotification(int notificationId)
+	{
+		HttpWebRequest req = (HttpWebRequest) WebRequest.Create(baseUrl + "/notifications/" + notificationId + ".xml");
+		req.PreAuthenticate = true;
+		req.Credentials = new NetworkCredential(apiKey, "password");
+		req.Method = "DELETE";     
+		req.Accept = "text/xml";
+			
+		HttpWebResponse resp = (HttpWebResponse) req.GetResponse();
+		Boolean returnValue = false;	
+		if (resp.StatusCode == System.Net.HttpStatusCode.OK) {
+			returnValue =  true;
+		} else {
+			returnValue = false;
+		}
+	    resp.Close();
+	    req.Abort();
+		return returnValue;
+	}
     
     
     public List<Notification> getNotifications() 
     {
       HttpWebRequest req = (HttpWebRequest) WebRequest.Create(baseUrl + "/notifications.xml");
-      req.Credentials = new NetworkCredential(apiKey, "password");
+      req.PreAuthenticate = true;
+	  req.Credentials = new NetworkCredential(apiKey, "password");
       req.Method = "GET";     
       req.Accept = "text/xml";
       
@@ -113,7 +141,9 @@ namespace MessagePub
         }
       } else {
         throw new Exception();
-      }      
+      }
+	  resp.Close();
+	  req.Abort();				
       return list;      
     }
     
