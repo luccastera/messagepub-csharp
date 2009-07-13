@@ -15,7 +15,7 @@ namespace MessagePubTester
 			Recipient rcpt1 = new Recipient(1,"twitter", "sharememeinc");
 			Console.WriteLine("Created recipient with position = {0}, channel = {1}, and address = {2}", rcpt1.Position, rcpt1.Channel, rcpt1.Address);
       
-      		Recipient rcpt2 = new Recipient(2, "email", "joe@example.com");
+      		Recipient rcpt2 = new Recipient(2, "email", "ticastera@gmail.com");
       		Console.WriteLine("Created recipient with position = {0}, channel = {1}, and address = {2}\n", rcpt2.Position, rcpt2.Channel, rcpt2.Address);
       
       		// Test Notification Class
@@ -61,6 +61,8 @@ namespace MessagePubTester
 				}
         		Console.WriteLine("Note with {0} recipients: {1}", allNotes[i].getNumberOfRecipients(), allNotes[i].Body);
       		}
+			
+			System.Threading.Thread.Sleep(5000);
 			
 			//Test Client.cancelNotification
 			Console.WriteLine("\nCancelling a notification...\n");

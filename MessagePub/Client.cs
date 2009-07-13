@@ -146,6 +146,30 @@ namespace MessagePub
 	  req.Abort();				
       return list;      
     }
+		
+	private Recipient parseRecipientXML(string recipientXMLString)
+	{
+		XmlReader reader = new XmlTextReader(new StringReader(recipientXMLString));
+		Recipient rcpt = new Recipient();
+		while (reader.Read()) {
+			if (reader.NodeType == XmlNodeType.Element) {
+					if (reader.Name == "channel") {
+                    	reader.Read();
+                    	rcpt.Channel = reader.Value;
+                    } else if (reader.Name == "address") {
+                    	reader.Read();
+                    	rcpt.Address = reader.Value;
+                    } else if (reader.Name == "send_at") {
+                    	reader.Read();
+                    	rcpt.SentAt = reader.Value;
+                    } else if (reader.Name == "status") {
+                    	reader.Read();
+                    	rcpt.Status = reader.Value;
+                    }  
+			}
+		}
+		return rcpt;
+	}
     
     
     private Notification parseNotificationXML(string notificationXMlString)
@@ -172,27 +196,10 @@ namespace MessagePub
           }
           else if (reader.Name == "recipients") {
             while (reader.Read()) {
-              if (reader.Name == "recipient" && reader.NodeType == XmlNodeType.Element) {
-                Recipient newRcpt = new Recipient();
-                while (reader.Read()) {
-                  if (reader.NodeType == XmlNodeType.Element) {
-                    if (reader.Name == "channel") {
-                      reader.Read();
-                      newRcpt.Channel = reader.Value;
-                    } else if (reader.Name == "address") {
-                      reader.Read();
-                      newRcpt.Address = reader.Value;
-                    } else if (reader.Name == "send_at") {
-                      reader.Read();
-                      newRcpt.SentAt = reader.Value;
-                    } else if (reader.Name == "status") {
-                      reader.Read();
-                      newRcpt.Status = reader.Value;
-                    }                         
-                  }
-                }
-                note.addRecipient(newRcpt);
-              }
+				if (reader.Name == "recipient" && reader.NodeType == XmlNodeType.Element) {
+                	Recipient newRcpt = parseRecipientXML(reader.ReadOuterXml());
+					note.addRecipient(newRcpt);
+            	}
             }
           }
         }
